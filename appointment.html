@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="appointmentForm">
+  <input id="name">
+  <input id="email">
+  <input id="address">
+  <input id="phone">
+  <textarea id="notes"></textarea>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+document.getElementById("appointmentForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        address: document.getElementById("address").value,
+        phone: document.getElementById("phone").value,
+        notes: document.getElementById("notes").value
+    };
+
+    let res = await fetch("http://localhost:3000/api/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+
+    let result = await res.json();
+
+    if (result.success) {
+        alert("Saved to database!");
+        window.location.href = "main.html";
+    } else {
+        alert("Error saving!");
+    }
+});
+</script>
+
+</body>
+</html>
